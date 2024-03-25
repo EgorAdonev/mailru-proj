@@ -16,7 +16,6 @@ import ru.adonev.ui.steps.UiSteps;
 public class LoginTest {
     @Autowired
     private UiSteps steps;
-
     @Test
     @Owner("Egor Adonev")
     @DisplayName("Тест логина")

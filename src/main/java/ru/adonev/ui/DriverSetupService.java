@@ -12,7 +12,7 @@ public class DriverSetupService {
 
     public void setup() {
         System.setProperty("webdriver.chrome.driver",
-                "C:\\IDP_proj\\ui\\src\\main\\resources\\driver\\chromedriver-win64\\chromedriver.exe");
+                "C:\\IDP_proj\\mailru-proj\\src\\main\\resources\\chromedriver-win64\\chromedriver.exe");
         driver = new ChromeDriver();
         baseUrl = "https://mail.ru/";
     }
