@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.adonev.ui.steps.UiSteps;
 
+import java.time.LocalDate;
+
 @Epic("Авторизация")
 @Feature("Логин")
 @SpringBootTest
@@ -21,6 +23,16 @@ public class LoginTest {
     @DisplayName("Тест логина")
     @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
     void loginTest() {
-        steps.login();
+        steps.goTo();
+    }
+    @Test
+    @Owner("Egor Adonev")
+    @DisplayName("Создание почты")
+    @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
+    void creationTest() {
+        steps.goTo();
+        steps.createMail("Egor","Egor",
+                LocalDate.of(1999,12,31),"Male","egor39832921",
+                new char[]{'p','f','%','d','d','_','j','A','p','o','r','a'},9992324333L);
     }
 }

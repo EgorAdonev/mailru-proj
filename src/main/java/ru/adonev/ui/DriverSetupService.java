@@ -24,4 +24,9 @@ public class DriverSetupService {
     public String getBaseUrl() {
         return baseUrl;
     }
+    public void shutdown(){
+        if(driver!=null){
+            driver.close();
+        }
+    }
 }
