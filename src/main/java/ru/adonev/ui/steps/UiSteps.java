@@ -19,7 +19,7 @@ import java.util.Locale;
 @Service
 public class UiSteps {
     private final DriverSetupService setupService;
-
+    // можно убрать autowired если внедряется 1 зависимость
     @Autowired
     public UiSteps(DriverSetupService setupService) {
         this.setupService = setupService;

@@ -1,6 +1,9 @@
 package ru.adonev.ui.elements;
 
 public enum Buttons {
+    //
+    // PageObject
+
     LOGIN("//*[@id=\"mailbox\"]/div[1]/button"),
     CREATE_MAIL_ACC("#root > div > div > div > div.wrapper-0-2-5 > div > div > form > div:nth-child(3) > div.JZPUNosGIyW2bqTAo1bv > div > div > a"),
     CREATE_MAIL_ACC_XPATH("//*[@id=\"root\"]/div/div/div/div[2]/div/div/form/div[3]/div[2]/div/div/a"),
