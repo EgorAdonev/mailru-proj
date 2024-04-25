@@ -11,9 +11,12 @@ public class DriverSetupService {
     private String baseUrl;
 
     public void setup() {
+        //получение через resources
         System.setProperty("webdriver.chrome.driver",
                 "C:\\IDP_proj\\mailru-proj\\src\\main\\resources\\chromedriver-win64\\chromedriver.exe");
+        // ограничение одним браузером- не позволяет тестировать кроссбраузерно или другом
         driver = new ChromeDriver();
+        // убрать в properties, в хост
         baseUrl = "https://mail.ru/";
     }
 

@@ -20,23 +20,35 @@ import java.util.Locale;
 public class UiSteps {
     private final DriverSetupService setupService;
     // можно убрать autowired если внедряется 1 зависимость
+    //предсмертный скриншот
     @Autowired
     public UiSteps(DriverSetupService setupService) {
         this.setupService = setupService;
     }
 
+    // зайти или войти ?
+    //разделить на
+    // действие и проверка результата
     @Step("Зайти в mail.ru")
     public void goTo() {
+        //setup перенести в before в тест
         setupService.setup();
         WebDriver driver = setupService.getDriver();
-        driver.get(String.format("%s%s", setupService.getBaseUrl(),
+        driver.get(String.format("%s%s",
+                // выделить получение урла в другой класс
+                setupService.getBaseUrl(),
                 "/?from=logout&ref=main"));
         WebElement loginButton = driver.findElement(By.xpath(Buttons.LOGIN.locator));
         loginButton.click();
     }
+    //сделать метод fill по заполнению поля
+    //pageobject
+    //добавить проверку
     @Step("Создать почту")
     public void createMail(String firstName, String secondName,
                            LocalDate birthDate, String sex, String mail, char[] password, long phoneNumber) {
+        //декомпозировать
+        //сделать так чтоб степ можно было использовать и в негатив
         WebDriver driver = setupService.getDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.findElement(By.xpath(Buttons.CREATE_MAIL_ACC_XPATH.locator)).click();
@@ -61,6 +73,7 @@ public class UiSteps {
         phoneNumFieldWithoutCountryCode.sendKeys(String.valueOf(phoneNumber));
         WebElement submit = driver.findElement(By.xpath(Buttons.SUBMIT_MAIL_CREATION.locator));
         submit.submit();
+        //в after в тесте
         setupService.shutdown();
     }
 
