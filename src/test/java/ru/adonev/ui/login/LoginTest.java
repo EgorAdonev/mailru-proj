@@ -45,8 +45,9 @@ public class LoginTest {
         //test data
         // random в кач-ве тестовых данных
         steps.createMail("Egor","Egor",
-                LocalDate.of(1999,12,31),"Male","egor39832921",
+                LocalDate.of(1999,12,31),"Male",
+                "egor39832921"
                 //сохранение пароля в файл в зашифрованном виде
-                new char[]{'p','f','%','d','d','_','j','A','p','o','r','a'},9992324333L);
+                ,9992324333L);
     }
 }

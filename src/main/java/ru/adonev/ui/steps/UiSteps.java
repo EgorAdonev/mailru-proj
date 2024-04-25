@@ -46,7 +46,7 @@ public class UiSteps {
     //добавить проверку
     @Step("Создать почту")
     public void createMail(String firstName, String secondName,
-                           LocalDate birthDate, String sex, String mail, char[] password, long phoneNumber) {
+                           LocalDate birthDate, String sex, String mail, long phoneNumber) {
         //декомпозировать
         //сделать так чтоб степ можно было использовать и в негатив
         WebDriver driver = setupService.getDriver();
@@ -66,9 +66,6 @@ public class UiSteps {
         WebElement mailField = driver.findElement(By.xpath(Buttons.MAIL.locator));
         mailField.sendKeys(mail);
         WebElement passwordForm = driver.findElement(By.xpath(Buttons.PASSWORD.locator));
-        CharBuffer buf = CharBuffer.wrap(password);
-        passwordForm.sendKeys(buf);
-        buf.clear();
         WebElement phoneNumFieldWithoutCountryCode = driver.findElement(By.xpath(Buttons.PHONE_NUMBER.locator));
         phoneNumFieldWithoutCountryCode.sendKeys(String.valueOf(phoneNumber));
         WebElement submit = driver.findElement(By.xpath(Buttons.SUBMIT_MAIL_CREATION.locator));
