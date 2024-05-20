@@ -1,53 +1,57 @@
 package ru.adonev.ui.login;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Link;
-import io.qameta.allure.Owner;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.adonev.ui.DriverSetupService;
 import ru.adonev.ui.steps.UiSteps;
 
 import java.time.LocalDate;
 
 @Epic("Авторизация")
 @Feature("Логин")
-@Owner("")
+@Owner("Egor Adonev <EgorAdonev@github.com>")
 @SpringBootTest
 // вводит в заблуждение
 public class LoginTest {
     @Autowired
     private UiSteps steps;
-    @Test
-    @Owner("Egor Adonev")
-    // указать то
-    @DisplayName("Тест логина")//Использовать нейминг типа 'Авторизация. Успешная авторизация'
-    // убрать одинаковые аннотации с класса
-    @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
-    //убрать слово Test
-    void loginTest() {
-        //указать что goTo mail ru
-        steps.goTo();
-        // добавить проверку
+    @Autowired
+    private DriverSetupService setupService;
+
+    @BeforeEach
+    public void setup() {
+        setupService.setup();
     }
+
+    @AfterEach
+    public void shutdown() {
+        setupService.shutdown();
+    }
+
     @Test
-    @Owner("Egor Adonev")
-    @DisplayName("Создание почты")// создание почтового ящика заменить на создание письма
+    @DisplayName("Авторизация. Успешная авторизация")// убрать одинаковые аннотации с класса
+    @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
+    void login() {//указать что goTo mail ru
+        int result = steps.goToMailRuLogIn();
+        Assertions.assertEquals(0, result);
+    }
+
+    @Test
+    @DisplayName("Создание электронного письма. Успешный кейс")// создание почтового ящика заменить на создание письма
     // сохрание
     @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
-    //подумать над модификатором доступа
+        //подумать над модификатором доступа
     void creationTest() {
         //вынести goTo в before
-        //cделать
-        steps.goTo();
         //test data
         // random в кач-ве тестовых данных
-        steps.createMail("Egor","Egor",
-                LocalDate.of(1999,12,31),"Male",
+        steps.
+        steps.createMail("Egor", "Egor");
+                LocalDate.of(1999, 12, 31), "Male",
                 "egor39832921"
-                //сохранение пароля в файл в зашифрованном виде
-                ,9992324333L);
+                //сохранение пароля в файл в зашифрованном виде, а лучше генерация рандом пароля
+                , 9992324333L);*/
     }
 }
