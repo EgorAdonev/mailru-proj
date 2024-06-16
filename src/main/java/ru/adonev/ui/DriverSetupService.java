@@ -3,6 +3,7 @@ package ru.adonev.ui;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
+import ru.adonev.ui.utils.Utils;
 
 @Service
 public class DriverSetupService {
@@ -11,13 +12,10 @@ public class DriverSetupService {
     private String baseUrl;
 
     public void setup() {
-        //получение через resources
-        System.setProperty("webdriver.chrome.driver",
-                "C:\\IDP_proj\\mailru-proj\\src\\main\\resources\\chromedriver-win64\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", Utils.getProperty("webdriver.chrome.driver"));
         // ограничение одним браузером- не позволяет тестировать кроссбраузерно или другом
         driver = new ChromeDriver();
-        // убрать в properties, в хост
-        baseUrl = "https://mail.ru/";
+        baseUrl = Utils.getProperty("host");
     }
 
     public WebDriver getDriver(){

@@ -6,12 +6,12 @@ import org.openqa.selenium.support.ui.Select;
 
 public class MailRuPage {
     protected WebDriver driver;
-    private By usernameBy = By.name("user_name");
+    private final By usernameBy = By.name("user_name");
     // <input name="password" type="password" value="">
 
     public MailRuPage(WebDriver driver){
         this.driver = driver;
-        if (!driver.getTitle().equals("Sign In Page")) {
+        if (!driver.getTitle().equals("Mail.ru: почта, поиск, новости, прогноз погоды, гороскоп, программа передач")) {
             throw new IllegalStateException("This is not Sign In Page," +
                     " current page is: " + driver.getCurrentUrl());
         }
