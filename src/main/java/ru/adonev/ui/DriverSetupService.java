@@ -1,7 +1,7 @@
 package ru.adonev.ui;
 
+import browser.factory.BrowserFactory;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Service;
 import ru.adonev.ui.utils.Utils;
 
@@ -9,22 +9,18 @@ import ru.adonev.ui.utils.Utils;
 public class DriverSetupService {
     private WebDriver driver;
 
-    private String baseUrl;
-
-    public void setup() {
+    public void setup(String browser) {
         System.setProperty("webdriver.chrome.driver", Utils.getProperty("webdriver.chrome.driver"));
-        // ограничение одним браузером- не позволяет тестировать кроссбраузерно или другом
-        driver = new ChromeDriver();
-        baseUrl = Utils.getProperty("host");
+        // ограничение одним браузером - не позволяет тестировать кроссбраузерно или другом
+        // воспользовался фабрикой браузеров
+        BrowserFactory.initBrowser(browser);
+        driver = BrowserFactory.getBrowser();
     }
 
     public WebDriver getDriver(){
         return this.driver;
     }
 
-    public String getBaseUrl() {
-        return baseUrl;
-    }
     public void shutdown(){
         if(driver!=null){
             driver.close();

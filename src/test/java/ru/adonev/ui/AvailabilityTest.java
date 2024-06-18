@@ -18,7 +18,7 @@ public class AvailabilityTest {
 
   @BeforeEach
   public void setup() {
-    setupService.setup();
+    setupService.setup("chrome");
   }
 
   @AfterEach
@@ -32,8 +32,8 @@ public class AvailabilityTest {
   @DisplayName("Доступность ресурса. Ресурс доступен")
   @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
   public void checkAvailability() {
-    int result = steps.goToMailRuLogIn();
-    Assertions.assertEquals(0, result);
+    boolean result = steps.goToMailRuLogIn();
+    Assertions.assertTrue(result, "Ресурс недоступен. Тестирование невозможно.");
   }
 
 }

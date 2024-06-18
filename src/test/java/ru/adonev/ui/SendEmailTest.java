@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.adonev.ui.steps.UiSteps;
 
 @Epic("Тесты UI")
+@Feature("Создание")
 @Feature("Отправка")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
 @SpringBootTest

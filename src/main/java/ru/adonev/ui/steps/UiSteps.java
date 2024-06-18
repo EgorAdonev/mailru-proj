@@ -1,22 +1,22 @@
 package ru.adonev.ui.steps;
 
+import browser.factory.BrowserFactory;
 import com.google.common.base.Preconditions;
 import io.qameta.allure.Step;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.format.TextStyle;
-import java.util.Locale;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.adonev.ui.DriverSetupService;
 import ru.adonev.ui.elements.Locator;
-import ru.adonev.ui.elements.MailRuPage;
+import ru.adonev.ui.pages.MailRuPage;
+import ru.adonev.ui.pages.RegisterPage;
+import ru.adonev.ui.utils.Utils;
 
 @Service
 public class UiSteps {
@@ -29,79 +29,83 @@ public class UiSteps {
     this.setupService = setupService;
   }
 
-  // зайти
   // действие и проверка результата
   @Step("Зайти на mail.ru")
-  public int goToMailRuLogIn() {
-    //setup перенести в before в тест
+  public boolean goToMailRuLogIn() {
     try {
       WebDriver driver = setupService.getDriver();
+
       driver.get(String.format("%s%s",
-          // выделить получение урла в другой класс
-          setupService.getBaseUrl(),
+          BrowserFactory.loadApp(Utils.getProperty("host")),
           "/?from=logout&ref=main"));
-      WebElement loginButton = driver.findElement(By.xpath(Locator.LOGIN.locator));
-      loginButton.click();
-      return 0;
+      MailRuPage mailRuPage = new MailRuPage(driver);
+      return mailRuPage.getTitle()
+          .equals("Mail.ru: почта, поиск, новости, прогноз погоды, гороскоп, программа передач");
     } catch (ElementNotInteractableException e) {
-      return -1;
+      return false;
     }
   }
 
-  //pageobject
   //добавить проверку
   @Step("Создать почту")
-  public MailRuPage createEmailBox(String mail, long phoneNumber) {
-    //декомпозировать
+  public RegisterPage createEmailBox(String mail, String phoneNumber, String password) {
     //сделать так чтоб степ можно было использовать и в негатив
     WebDriver driver = setupService.getDriver();
-    MailRuPage mailLoginPage = new MailRuPage(driver);
-    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-    WebElement mailField = driver.findElement(By.xpath(Locator.MAIL.locator));
-    mailField.sendKeys(mail);
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
-    WebElement phoneNumField = driver.findElement(By.xpath(Locator.PHONE_NUMBER.locator));
-    phoneNumField.sendKeys(String.valueOf(phoneNumber));
-    WebElement submit = driver.findElement(By.xpath(Locator.SUBMIT_MAIL_CREATION.locator));
-    submit.submit();
-    return new MailRuPage(driver);
-    //в after в тесте setupService.shutdown();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.elementToBeClickable(
+            By.cssSelector(".grid__header a.ph-project__register")))
+        .click();
+    //css - div > form .input-0-2-119[name=\"lname\"]
+    fillInitials("Egor", "Automation QA 555 3000");
+
+    //div > form > * .input-0-2-131[name="gender"][value="male"]'
+    fillSex("male");
+    fillPass(password);
+    fillMail(mail);
+    fillPhoneNum(phoneNumber);
+
+    return new RegisterPage(driver);
   }
 
   @Step("Заполнить пароль")
   public void fillPass(String pass) {
     WebDriver driver = setupService.getDriver();
-    MailRuPage mailLoginPage = new MailRuPage(driver);
-    mailLoginPage.fill(Locator.PASSWORD, pass);
-//        WebElement passwordForm = driver.findElement(By.xpath(Locator.PASSWORD.locator));
-//        passwordForm.sendKeys(pass);
+    driver.findElement(By.xpath(Locator.PASSWORD.locator)).sendKeys(pass);
   }
 
   @Step("Заполнить ФИО")
   public void fillInitials(String firstName, String secondName) {
     WebDriver driver = setupService.getDriver();
-    MailRuPage mailLoginPage = new MailRuPage(driver);
-
-    driver.findElement(By.xpath(Locator.CREATE_MAIL_ACC_XPATH.locator)).click();
-    mailLoginPage.fill(Locator.FIRST_NAME, firstName);
-    mailLoginPage.fill(Locator.LAST_NAME, secondName);
+    driver.findElement(By.cssSelector("div > form .input-0-2-119[name=\"fname\"]"))
+        .sendKeys(firstName);
+    driver.findElement(By.cssSelector("div > form .input-0-2-119[name=\"lname\"]"))
+        .sendKeys(secondName);
   }
 
-  @Step("Заполнить дату рождения и пол")
-  public void fillBirthdateAndSex(LocalDate birthDate, String sex) {
+  @Step("Заполнить пол")
+  public void fillSex(String sex) {
     WebDriver driver = setupService.getDriver();
-    MailRuPage mailLoginPage = new MailRuPage(driver);
+    if (sex.equals("male")) {
+      driver.findElement(By.cssSelector(Locator.MALE_CSS.locator)).submit();
+    } else {
+      driver.findElement(By.cssSelector(Locator.FEMALE_CSS.locator)).submit();
+    }
+  }
 
-    Select birthDay = mailLoginPage.dateLocator(Locator.DAY);
-    birthDay.selectByVisibleText(String.valueOf(birthDate.getDayOfMonth()));
+  @Step("Заполнить почту")
+  public void fillMail(String mail) {
+    WebDriver driver = setupService.getDriver();
+    driver.findElement(By.cssSelector("div > form > * input[name=\"partial_login\"]"))
+        .sendKeys(mail);
+  }
 
-    Select birthMonth = mailLoginPage.dateLocator(Locator.MONTH);
-    birthMonth.selectByVisibleText(birthDate
-        .getMonth()
-        .getDisplayName(TextStyle.FULL, Locale.forLanguageTag("ru")));
-
-    Select birthYear = mailLoginPage.dateLocator(Locator.YEAR);
-    birthYear.selectByVisibleText(String.valueOf(birthDate.getYear()));
+  @Step("Заполнить телефон")
+  public void fillPhoneNum(String phoneNum) {
+    WebDriver driver = setupService.getDriver();
+    driver.findElement(By.cssSelector("div[class] > input[data-test-id=\"phone-input\"]"))
+        .sendKeys(phoneNum);
   }
 
   @Step("Отправить электронное письмо")

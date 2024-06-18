@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.adonev.ui.pages.RegisterPage;
 import ru.adonev.ui.steps.UiSteps;
 
 @Epic("Тесты UI")
@@ -27,9 +28,9 @@ public class CreationTest {
 
   @BeforeEach
   public void setup() {
-    setupService.setup();
-    int result = steps.goToMailRuLogIn();
-    Assertions.assertEquals(0, result);
+    setupService.setup("chrome");
+    boolean result = steps.goToMailRuLogIn();
+    Assertions.assertTrue(result, "Ресурс недоступен. Тестирование невозможно.");
   }
 
   @AfterEach
@@ -38,14 +39,22 @@ public class CreationTest {
   }
 
   @Test
-  @DisplayName("Создание электронного почтового ящика. Успешный кейс")
-  @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
+  @DisplayName("Создание электронного почтового ящика. Негативный кейс(недостаточно данных)")
+  @Link(name = "MailRu", url = "https://account.mail.ru/signup?from=navi")
   //подумать над модификатором доступа
   public void creationTest() {
     // test data
     // random в кач-ве тестовых данных
     WebDriver driver = setupService.getDriver();
     System.out.println(driver.getTitle());
-    steps.createEmailBox("Egor", 9992324333L);
+
+    String email = String.format("egor-%s@mail.ru","providers");
+    String password = "RIGvZ5d3LQWeHf";
+    RegisterPage regPage = steps.createEmailBox(email, "9992324333", password);
+    System.out.println(regPage.getBaseUrl());
+    //верификация
+    String expectedTitle = "Почта Mail.ru";
+    Assertions.assertTrue(regPage.getTitle().contains(expectedTitle));
+
   }
 }
