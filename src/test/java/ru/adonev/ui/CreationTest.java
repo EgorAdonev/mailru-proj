@@ -48,13 +48,14 @@ public class CreationTest {
     WebDriver driver = setupService.getDriver();
     System.out.println(driver.getTitle());
 
-    String email = String.format("egor-%s@mail.ru","providers");
+    String email = String.format("egor-%s@mail.ru", "providers");
     String password = "RIGvZ5d3LQWeHf";
     RegisterPage regPage = steps.createEmailBox(email, "9992324333", password);
     System.out.println(regPage.getBaseUrl());
     //верификация
     String expectedTitle = "Почта Mail.ru";
-    Assertions.assertTrue(regPage.getTitle().contains(expectedTitle));
+    Assertions.assertTrue(regPage.getTitle().contains(expectedTitle),
+        String.format("Ожидаемое название страницы: %s, фактическое: %s", expectedTitle, regPage.getTitle()));
 
   }
 }
