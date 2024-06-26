@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import ru.adonev.api.model.UserPersonaNoId;
 import ru.adonev.api.repository.UserRepository;
@@ -18,6 +19,7 @@ import ru.adonev.api.steps.UserStepsService;
 @Epic("Тесты API")
 @Feature("Добавление пользователей")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
+@SpringBootTest
 public class AddUserTest {
   @Autowired
   private UserRepository usrRepository;

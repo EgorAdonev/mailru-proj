@@ -43,12 +43,11 @@ public class CreationTest {
   @Link(name = "MailRu", url = "https://account.mail.ru/signup?from=navi")
   public void creationTest() {
     WebDriver driver = setupService.getDriver();
-//    System.out.println(driver.getTitle());
 
     String email = String.format("egor-%s@mail.ru", "providers");
     String password = "RIGvZ5d3LQWeHf";
     RegisterPage regPage = steps.createEmailBox(email, "9992324333", password);
-//    System.out.println(regPage.getBaseUrl());
+
     String expectedTitle = "Почта Mail.ru";
     Assertions.assertTrue(regPage.getTitle().contains(expectedTitle),
         String.format("Ожидаемое название страницы: %s, фактическое: %s", expectedTitle, regPage.getTitle()));
@@ -57,7 +56,6 @@ public class CreationTest {
   @Test
   @DisplayName("Создание электронного почтового ящика. Негативный кейс. Несовпадение названия страницы")
   @Link(name = "MailRu", url = "https://account.mail.ru/signup?from=navi")
-  //подумать над модификатором доступа
   public void creationTestNegative() {
     WebDriver driver = setupService.getDriver();
 

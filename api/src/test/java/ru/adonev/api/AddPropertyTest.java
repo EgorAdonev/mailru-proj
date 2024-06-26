@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import ru.adonev.api.model.UserPersona;
 import ru.adonev.api.model.UserPersonaNoId;
@@ -24,6 +25,7 @@ import ru.adonev.api.steps.UserStepsService;
 @Epic("Тесты API")
 @Feature("Изменение принадлежности имущества")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
+@SpringBootTest
 public class AddPropertyTest {
 
   private static final String testName = "Johnny";
