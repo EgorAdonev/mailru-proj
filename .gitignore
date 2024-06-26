@@ -28,3 +28,5 @@ mvnw.cmd
 /target
 src/main/resources/chromedriver-win64/chromedriver.exe
 allure-results
+/.idea/dataSources.local.xml
+/api/target/classes/api-test-host.properties

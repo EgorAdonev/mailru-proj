@@ -1,4 +1,4 @@
-package browser.factory;
+package ru.adonev.ui.browser.factory;
 
 import java.util.HashMap;
 import org.openqa.selenium.WebDriver;

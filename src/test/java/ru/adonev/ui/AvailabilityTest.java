@@ -4,7 +4,7 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.adonev.ui.steps.UiSteps;
+import ru.adonev.steps.UiSteps;
 
 @Owner("Egor Adonev <EgorAdonev@github.com>")
 @SpringBootTest

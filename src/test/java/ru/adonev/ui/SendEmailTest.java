@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.adonev.ui.steps.UiSteps;
+import ru.adonev.steps.UiSteps;
 
 @Epic("Тесты UI")
 @Feature("Создание")
