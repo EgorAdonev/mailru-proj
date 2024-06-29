@@ -9,38 +9,24 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>api</artifactId>
+  <artifactId>core</artifactId>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <junit-jupiter.version>5.9.0</junit-jupiter.version>
-    <aspectj.version>1.9.22</aspectj.version>
   </properties>
   <dependencies>
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>6.1.10</version>
-      <scope>test</scope>
-    </dependency>
-<!--    <dependency>-->
-<!--      <groupId>ru.adonev</groupId>-->
-<!--      <artifactId>main</artifactId>-->
-<!--      <version>0.0.1-SNAPSHOT</version>-->
-<!--    </dependency>-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jdbc</artifactId>
-      <version>3.2.5</version>
-    </dependency>
     <dependency>
       <groupId>ru.adonev</groupId>
-      <artifactId>core</artifactId>
+      <artifactId>main</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit-jupiter.version}</version>
     </dependency>
   </dependencies>
 
