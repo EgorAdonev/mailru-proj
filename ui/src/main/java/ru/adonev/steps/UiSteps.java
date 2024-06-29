@@ -44,7 +44,6 @@ public class UiSteps {
 
   @Step("Создать почту")
   public RegisterPage createEmailBox(String mail, String phoneNumber, String password) {
-    //сделать так чтоб степ можно было использовать и в негатив
     WebDriver driver = browserService.getDriver();
     MailRuPage mailRuPage = new MailRuPage(driver);
     formSteps.waitUntilClickable(driver, mailRuPage.getRegisterButton());
