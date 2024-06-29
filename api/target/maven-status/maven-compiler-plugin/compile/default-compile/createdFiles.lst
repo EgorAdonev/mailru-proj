@@ -1,0 +1,4 @@
+ru\adonev\api\model\UserPersonaNoId.class
+ru\adonev\api\model\UserPersona.class
+ru\adonev\api\repository\UserRepository.class
+ru\adonev\api\repository\UserRowMapper.class
