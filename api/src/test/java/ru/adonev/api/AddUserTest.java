@@ -34,9 +34,7 @@ public class AddUserTest {
   @Link(name = "API стенд", url = "/user")
   public void addUserSuccess() throws JsonProcessingException, JSONException {
     userStepsService.createUser(
-        new UserPersonaNoId("testName", "testSecondName", 34, "MALE", new BigDecimal(390000)),
-        restTemplate,
-        addr + "/user"
+        new UserPersonaNoId("testName", "testSecondName", 34, "MALE", new BigDecimal(390000))
     );
 
   }

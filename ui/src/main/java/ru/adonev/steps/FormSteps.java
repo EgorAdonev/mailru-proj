@@ -1,6 +1,8 @@
 package ru.adonev.steps;
 
+import io.qameta.allure.Param;
 import io.qameta.allure.Step;
+import io.qameta.allure.model.Parameter.Mode;
 import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,8 +17,8 @@ public class FormSteps {
     driver.findElement(selector).sendKeys(value);
   }
 
-  @Step("Заполнить чувствительные данные")
-  public void fillSensitiveField(By selector, String fieldName, String sensitiveData,
+  @Step("Заполнить поле {fieldName} с чувствительными данными ")
+  public void fillSensitiveField(By selector, String fieldName, /*@Param(mode = Mode.MASKED)*/ String sensitiveData,
       WebDriver driver) {
     driver.findElement(selector).sendKeys(sensitiveData);
   }

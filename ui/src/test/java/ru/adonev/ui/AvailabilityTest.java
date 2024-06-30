@@ -9,12 +9,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.adonev.service.BrowserService;
+import ru.adonev.steps.FormSteps;
 import ru.adonev.steps.UiSteps;
 
 @Owner("Egor Adonev <EgorAdonev@github.com>")
 @Epic("Тесты UI")
 @Feature("Доступность ресурса")
-@SpringBootTest
+@SpringBootTest(classes = {UiSteps.class, BrowserService.class, FormSteps.class})
 public class AvailabilityTest extends BaseUiTest {
 
   @Autowired

@@ -1,7 +1,9 @@
 package ru.adonev.steps;
 
 import com.google.common.base.Preconditions;
+import io.qameta.allure.Param;
 import io.qameta.allure.Step;
+import io.qameta.allure.model.Parameter.Mode;
 import java.time.LocalDate;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.openqa.selenium.ElementNotInteractableException;
@@ -11,9 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.adonev.pages.MailRuPage;
+import ru.adonev.pages.RegisterPage;
+import ru.adonev.pages.SignInPage;
 import ru.adonev.service.BrowserService;
-import ru.adonev.ui.pages.MailRuPage;
-import ru.adonev.ui.pages.RegisterPage;
 
 @Service
 public class UiSteps {
@@ -43,7 +46,8 @@ public class UiSteps {
   }
 
   @Step("Создать почту")
-  public RegisterPage createEmailBox(String mail, String phoneNumber, String password) {
+  public RegisterPage createEmailBox(String mail, String phoneNumber,
+      @Param(mode = Mode.MASKED) String password) {
     WebDriver driver = browserService.getDriver();
     MailRuPage mailRuPage = new MailRuPage(driver);
     formSteps.waitUntilClickable(driver, mailRuPage.getRegisterButton());
@@ -62,6 +66,24 @@ public class UiSteps {
     registerPage.registerEmail();
 
     return new RegisterPage(formSteps, driver);
+  }
+
+
+  @Step("Войти в mail.ru без пароля")
+  public SignInPage signIn(String mail, String phoneNum) {
+    WebDriver driver = browserService.getDriver();
+    MailRuPage mailRuPage = new MailRuPage(driver);
+    mailRuPage.clickLoginButton();
+    mailRuPage.goToSignInWindow();
+    mailRuPage.fillLoginInfo(mail);
+    mailRuPage.clickNext();
+    mailRuPage.clickContinueButton();
+
+    SignInPage signInPage = new SignInPage(driver);
+    signInPage.clickSignIn();
+    signInPage.fillPhoneNumber(phoneNum);
+
+    return new SignInPage(driver);
   }
 
   @Step("Отправить электронное письмо")

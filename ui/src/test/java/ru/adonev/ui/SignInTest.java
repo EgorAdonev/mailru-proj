@@ -13,20 +13,21 @@ import ru.adonev.steps.FormSteps;
 import ru.adonev.steps.UiSteps;
 
 @Epic("Тесты UI")
-@Feature("Создание")
-@Feature("Отправка")
+@Feature("Вход")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
 @SpringBootTest(classes = {UiSteps.class, BrowserService.class, FormSteps.class})
-public class SendEmailTest extends BaseUiTest {
+public class SignInTest extends BaseUiTest {
 
   @Autowired
   private UiSteps steps;
 
   @Test
-  @DisplayName("Создание электронного письма. Успешный кейс")
-  @Link(name = "MailRu", url = "https://mail.ru/?from=logout&ref=main")
-  public void sendEmail() {
-    steps.sendEmail("test@mail.ru",
-        "Yamaha fabulous kitchen prescribed physician warranty eric, convergence pure visiting. ");
+  @DisplayName("Вход в MailRu через VK ID")
+  @Link(name = "MailRu", url = "https://account.mail.ru/signup?from=navi")
+  @Link(name = "VK ID", url = "https://id.vk.com/auth")
+  public void signInTest() {
+    steps.goToMailRuLogIn();
+    steps.signIn("egor.test.88", "+79953913638");
+
   }
 }
