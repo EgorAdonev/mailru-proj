@@ -20,7 +20,6 @@ public class SignInPage extends BasePage {
   public SignInPage(WebDriver driver) {
     super(driver);
     PageFactory.initElements(driver, this);
-    this.driver = driver;
   }
 
   @Step("Заполнить телефон")

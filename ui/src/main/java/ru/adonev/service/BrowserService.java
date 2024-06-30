@@ -21,19 +21,7 @@ public class BrowserService {
 //  @Value("${host}")
 //  private String host;
 
-  public static WebDriver initBrowser(String browser) {
-    return switch (browser) {
-      case "chrome" -> new ChromeDriver();
-      case "firefox" -> new FirefoxDriver();
-      case "ie" -> new InternetExplorerDriver();
-      case "safari" -> new SafariDriver();
-      default ->
-          throw new NoSuchElementException(String.format("Браузер %s не поддерживается.", browser));
-    };
-  }
-
   public WebDriver getDriver() {
-    this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
     return this.driver;
   }
 
@@ -48,13 +36,25 @@ public class BrowserService {
     System.setProperty("webdriver.chrome.driver", Utils.getProperty("webdriver.chrome.driver",
         "src/main/resources/driver.properties"));
     this.driver = initBrowser(browser);
+    this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
   }
 
-  public void quit() {
+  public void close() {
     if (this.driver != null) {
       this.driver.close();
+      this.driver = null;
     }
   }
 
+  private WebDriver initBrowser(String browser) {
+    return switch (browser) {
+      case "chrome" -> new ChromeDriver();
+      case "firefox" -> new FirefoxDriver();
+      case "ie" -> new InternetExplorerDriver();
+      case "safari" -> new SafariDriver();
+      default ->
+          throw new NoSuchElementException("Браузер %s не поддерживается.".formatted(browser));
+    };
+  }
 
 }

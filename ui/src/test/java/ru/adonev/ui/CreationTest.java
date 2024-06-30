@@ -7,22 +7,14 @@ import io.qameta.allure.Owner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import ru.adonev.pages.RegisterPage;
-import ru.adonev.service.BrowserService;
-import ru.adonev.steps.FormSteps;
-import ru.adonev.steps.UiSteps;
 
 @Epic("Тесты UI")
 @Feature("Создание")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
-@SpringBootTest(classes = {UiSteps.class, BrowserService.class, FormSteps.class})
 public class CreationTest extends BaseUiTest {
 
   private static final String EXPECTED_TITLE = "Почта Mail.ru";
-  @Autowired
-  private UiSteps steps;
 
   @Test
   @DisplayName("Создание электронного почтового ящика.")

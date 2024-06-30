@@ -6,7 +6,7 @@ import io.qameta.allure.Step;
 import io.qameta.allure.model.Parameter.Mode;
 import java.time.LocalDate;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.openqa.selenium.ElementNotInteractableException;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
@@ -21,28 +21,23 @@ import ru.adonev.service.BrowserService;
 @Service
 public class UiSteps {
 
+  public static final String MAIN_PAGE_EXPECTED_TITLE = "Mail.ru: почта, поиск, новости, прогноз погоды, гороскоп, программа передач";
   private static final Logger LOGGER = LoggerFactory.getLogger(UiSteps.class);
-
   private final BrowserService browserService;
-  private final FormSteps formSteps;
 
   //предсмертный скриншот
   @Autowired
-  public UiSteps(BrowserService browserService, FormSteps formSteps) {
+  public UiSteps(BrowserService browserService) {
     this.browserService = browserService;
-    this.formSteps = formSteps;
   }
 
   @Step("Зайти на mail.ru")
-  public boolean goToMailRuLogIn() {
-    try {
-      WebDriver driver = browserService.getDriver();
-      driver.get(String.format("%s%s", browserService.getHost(), "/?from=logout&ref=main"));
-      MailRuPage mailRuPage = new MailRuPage(driver);
-      return mailRuPage.getMailButton().getText().equals("Почта");
-    } catch (ElementNotInteractableException e) {
-      return false;
-    }
+  public void goToMailRuLogIn() {
+    WebDriver driver = browserService.getDriver();
+    driver.get(String.format("%s%s", browserService.getHost(), "/?from=logout&ref=main"));
+    MailRuPage mailRuPage = new MailRuPage(driver);
+    Assertions.assertEquals(MAIN_PAGE_EXPECTED_TITLE, mailRuPage.getTitle(),
+        "Ресурс недоступен. Тестирование невозможно.");
   }
 
   @Step("Создать почту")
@@ -50,8 +45,8 @@ public class UiSteps {
       @Param(mode = Mode.MASKED) String password) {
     WebDriver driver = browserService.getDriver();
     MailRuPage mailRuPage = new MailRuPage(driver);
-    formSteps.waitUntilClickable(driver, mailRuPage.getRegisterButton());
-    RegisterPage registerPage = new RegisterPage(formSteps, driver);
+    mailRuPage.click();
+    RegisterPage registerPage = new RegisterPage(driver);
     registerPage.fillInitials("Egor", "Automation QA 555 3000");
     //Не всегда запрашивается пароль при регистрации
     try {
@@ -65,7 +60,7 @@ public class UiSteps {
     registerPage.fillGender(true);
     registerPage.registerEmail();
 
-    return new RegisterPage(formSteps, driver);
+    return new RegisterPage(driver);
   }
 
 

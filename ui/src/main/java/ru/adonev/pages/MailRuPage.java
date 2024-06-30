@@ -1,16 +1,17 @@
 package ru.adonev.pages;
 
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
+import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MailRuPage extends BasePage {
 
-  private final By registerButton = By.cssSelector(".grid__header a.ph-project__register");
-  protected WebDriver driver;
+
   @FindBy(xpath = "//button[@type='submit']")
   private WebElement signInButton;
   @FindBy(xpath = "//nav//a[text()='Почта']")
@@ -23,12 +24,13 @@ public class MailRuPage extends BasePage {
   private WebElement continueSignInButton;
   @FindBy(xpath = "//iframe[contains(@class, 'iframe')]")
   private WebElement signInModalWindow;
+  @FindBy(css = "a.ph-project__register")
+  private WebElement registerButton;
 
 
   public MailRuPage(WebDriver driver) {
     super(driver);
     PageFactory.initElements(driver, this);
-    this.driver = driver;
   }
 
   public String getTitle() {
@@ -39,7 +41,7 @@ public class MailRuPage extends BasePage {
     return mailButton;
   }
 
-  public By getRegisterButton() {
+  public WebElement getRegisterButton() {
     return registerButton;
   }
 
@@ -66,6 +68,12 @@ public class MailRuPage extends BasePage {
   @Step("Перейти в модальное окно входа")
   public void goToSignInWindow() {
     driver.switchTo().frame(signInModalWindow);
+  }
+
+  @Step("Ожидаем доступность кнопки {selector} для клика")
+  public void click() {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    wait.until(ExpectedConditions.elementToBeClickable(registerButton)).click();
   }
 
 }

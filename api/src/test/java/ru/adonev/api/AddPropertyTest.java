@@ -22,7 +22,7 @@ import ru.adonev.api.steps.UserStepsService;
 @Epic("Тесты API")
 @Feature("Изменение принадлежности имущества")
 @Owner("Egor Adonev <EgorAdonev@github.com>")
-@SpringBootTest
+@SpringBootTest()
 public class AddPropertyTest {
 
   public static final int testMoney = 770000;
